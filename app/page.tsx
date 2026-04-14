@@ -87,7 +87,7 @@ export default function Home() {
   }, []);
 
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({ open: false, message: '', severity: 'success' });
-  const ibanReal = "ES12 3456 7890 1234 5678";
+  const ibanReal = "ES50 2100 7949 1202 0022 5187";
 
   const heroRef   = useRef<HTMLDivElement>(null);
   const infoRef   = useRef<HTMLDivElement>(null);
