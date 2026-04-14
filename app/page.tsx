@@ -193,40 +193,127 @@ export default function Home() {
         <Box sx={{ position: 'absolute', bottom: 0, width: '100%', height: '18vh', background: `linear-gradient(transparent, ${C.cream})`, zIndex: 3 }} />
       </Box>
 
-      {/* ── SECCIÓ DE INFO ── */}
-      <Container maxWidth="lg">
-        <Box
-          sx={{
-            display: 'flex',
-            // En móvil se ponen una debajo de otra, en tablet/PC en fila
-            flexDirection: { xs: 'column', md: 'row' }, 
-            gap: 3,
-            // alignItems STRETCH obliga a que todas tengan el mismo alto que la más alta
-            alignItems: 'stretch', 
-            justifyContent: 'center',
-            mt: 6
-          }}
-        >
-          <InfoCard 
-            icon={<AccessTimeIcon />} 
-            subtitle="Hora" 
-            title="16:00 hores" 
-            description="Arribeu amb temps per no perdre-us res!" 
-          />
-          <InfoCard 
-            icon={<LocationOnIcon />} 
-            subtitle="Lloc" 
-            title="Finca de Binimazoch" 
-            description="Es Mercadal, Menorca. Hi ha parking disponible." 
-          />
-          <InfoCard 
-            icon={<MusicNoteIcon />} 
-            subtitle="Festa" 
-            title="Fins que aguanti es cos!" 
-            description="Prepareu les sabates de ball." 
-          />
-        </Box>
-      </Container>
+      {/* ── 2. INFO ── */}
+      <Box 
+        ref={infoRef} 
+        id="info" 
+        sx={{ 
+          py: { xs: 10, md: 14 }, 
+          bgcolor: C.cream,
+          scrollMarginTop: '20px' // Para que el scroll no quede pegado arriba
+        }}
+      >
+        <Container maxWidth="lg">
+          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-80px' }}>
+            
+            {/* Título de la sección que había desaparecido */}
+            <motion.div variants={fadeUp}>
+              <Box sx={{ textAlign: 'center', mb: 8 }}>
+                <Typography variant="h2" sx={{ 
+                  fontFamily: '"Cormorant Garamond", serif', 
+                  fontWeight: 300, 
+                  fontStyle: 'italic', 
+                  fontSize: { xs: '2.2rem', sm: '3rem' }, 
+                  color: C.slate, 
+                  mb: 1.5 
+                }}>
+                  Cerimònia i Festa
+                </Typography>
+                <Typography sx={{ color: C.slateLight, fontSize: '0.95rem', maxWidth: 480, mx: 'auto', lineHeight: 1.8 }}>
+                  No hi ha festa sense bona logística! Aquí tens tota s&apos;informació que necessites per arribar i xalar al màxim del nostre gran dia.
+                </Typography>
+              </Box>
+            </motion.div>
+
+            {/* Las Cards igualadas con Box */}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' }, 
+                gap: 3,
+                alignItems: 'stretch', 
+                justifyContent: 'center',
+                mb: 8
+              }}
+            >
+              <InfoCard 
+                icon={<AccessTimeIcon />} 
+                subtitle="Hora" 
+                title="16:00 hores" 
+                description="Arribeu amb temps per no perdre-us res!" 
+              />
+              <InfoCard 
+                icon={<LocationOnIcon />} 
+                subtitle="Lloc" 
+                title="Finca de Binimazoch" 
+                description="Es Mercadal, Menorca. Hi ha parking disponible." 
+              />
+              <InfoCard 
+                icon={<MusicNoteIcon />} 
+                subtitle="Festa" 
+                title="Fins que aguanti es cos!" 
+                description="Prepareu les sabates de ball." 
+              />
+            </Box>
+
+            {/* El Mapa que había desaparecido */}
+            <motion.div variants={fadeUp}>
+              <Box sx={{ maxWidth: 740, mx: 'auto' }}>
+                <Box sx={{ 
+                  borderRadius: '24px', 
+                  overflow: 'hidden', 
+                  border: `1px solid ${C.mist}`, 
+                  boxShadow: '0 8px 32px rgba(61,53,48,0.08)', 
+                  position: 'relative', 
+                  paddingBottom: '48%', 
+                  height: 0, 
+                  mb: 3 
+                }}>
+                  <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3698.6139367571327!2d4.194716633590684!3d39.97209096204583!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12be26616fb72133%3A0x1dcb996829ed6b43!2sDiseminado%20Poligono%2013%2C%2027%2C%2007740%2C%20Illes%20Balears%2C%20Spain!5e1!3m2!1sen!2sie!4v1776181333913!5m2!1sen!2sie"                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }} 
+                    allowFullScreen 
+                    loading="lazy" 
+                    referrerPolicy="no-referrer-when-downgrade" 
+                    title="Finca de Binimazoch" 
+                  />
+                </Box>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Button 
+  href="https://maps.google.com" // Asegúrate de poner tu link real
+  target="_blank" 
+  startIcon={<LocationOnIcon />} 
+  variant="outlined"
+  sx={{ 
+    color: C.slate, 
+    borderColor: C.mist, 
+    borderWidth: '2px', // Borde con más peso
+    borderRadius: '100px', 
+    px: 4, 
+    py: 1.5, 
+    fontSize: 12, 
+    fontWeight: 700,
+    letterSpacing: '0.15em', 
+    textTransform: 'uppercase',
+    bgcolor: 'rgba(255,255,255,0.5)',
+    '&:hover': { 
+      borderWidth: '2px',
+      borderColor: C.rose, 
+      color: C.roseDark, 
+      bgcolor: C.white,
+      transform: 'translateY(-1px)',
+      boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+    },
+    transition: 'all 0.2s ease'
+  }}
+>
+  Obre a Google Maps
+</Button>
+                </Box>
+              </Box>
+            </motion.div>
+          </motion.div>
+        </Container>
+      </Box>
 
       {/* ── 3. FORM ── */}
       <Box ref={formRef} id="form" sx={{ py: { xs: 10, md: 14 }, bgcolor: C.white, borderTop: `1px solid ${C.linen}`, borderBottom: `1px solid ${C.linen}` }}>
@@ -319,11 +406,41 @@ export default function Home() {
                     </motion.div>
                   ) : (
                     <motion.div key="btn">
-                      <Button variant="outlined" onClick={handleSongSubmit} disabled={songSubmitting || !songInput.trim()}
-                        sx={{ color: C.sage, borderColor: C.sage, borderRadius: '100px', px: 4, py: 1.2, fontSize: 10, fontFamily: 'inherit', letterSpacing: '0.2em', textTransform: 'uppercase', '&:hover': { borderColor: C.sageDark, color: C.sageDark, bgcolor: 'transparent' }, '&:disabled': { borderColor: C.mist, color: C.mist } }}>
-                        {songSubmitting ? <CircularProgress size={16} sx={{ color: C.sage }} /> : '+ Afegir Cançó'}
-                      </Button>
-                    </motion.div>
+  <Button 
+    variant="outlined" 
+    onClick={handleSongSubmit} 
+    disabled={songSubmitting || !songInput.trim()}
+    sx={{ 
+      color: C.sage, 
+      borderColor: C.sage, 
+      borderWidth: '2px', // Borde más grueso
+      borderRadius: '100px', 
+      px: 5, 
+      py: 1.5, 
+      fontSize: 12, // Fuente un poco más grande
+      fontWeight: 700, // Negrita para que resalte
+      fontFamily: 'inherit', 
+      letterSpacing: '0.15em', 
+      textTransform: 'uppercase', 
+      bgcolor: 'rgba(94,138,106,0.04)', // Fondo muy suave para darle cuerpo
+      '&:hover': { 
+        borderWidth: '2px',
+        borderColor: C.sageDark, 
+        color: C.sageDark, 
+        bgcolor: 'rgba(94,138,106,0.1)',
+        transform: 'translateY(-1px)'
+      }, 
+      '&:disabled': { 
+        borderColor: C.mist, 
+        color: C.mist,
+        borderWidth: '2px'
+      },
+      transition: 'all 0.2s ease'
+    }}
+  >
+    {songSubmitting ? <CircularProgress size={16} sx={{ color: C.sage }} /> : '+ Afegir Cançó'}
+  </Button>
+</motion.div>
                   )}
                 </AnimatePresence>
               </Box>
