@@ -1,165 +1,111 @@
 'use client'
-import { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import {
-  Box, Typography, Button,
-  useMediaQuery, useTheme
-} from '@mui/material';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Box, Typography, Button } from '@mui/material';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const C = {
   cream:      '#F5EDE0',
-  linen:      '#E8D9C4',
   rose:       '#C2735A',
-  roseDark:   '#A0513C',
   sage:       '#5E8A6A',
-  sageDark:   '#3D6B4F',
   slate:      '#2C2118',
   slateLight: '#5C4A3E',
   mist:       '#C9BEB4',
   white:      '#FDFAF6',
 };
 
-export const ScratchCard = ({ iban, reveal, onReveal, onCopy }: { iban: string; reveal: boolean; onReveal: () => void; onCopy: () => void }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isScratched, setIsScratched] = useState(false);
-  const [started, setStarted] = useState(false);
+export const ScratchCard = ({ iban, onCopy }: { iban: string; onCopy: () => void }) => {
+  const [isRevealed, setIsRevealed] = useState(false);
   const [copied, setCopied] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  useEffect(() => {
-    const canvas = canvasRef.current; if (!canvas) return;
-    const ctx = canvas.getContext('2d'); if (!ctx) return;
-    const W = isMobile ? 280 : 340; const H = 90;
-    canvas.width = W; canvas.height = H;
-    const grad = ctx.createLinearGradient(0, 0, W, H);
-    grad.addColorStop(0, '#C4B5A8'); grad.addColorStop(0.5, '#B8A898'); grad.addColorStop(1, '#A89888');
-    ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
-    for (let i = 0; i < 500; i++) { ctx.fillStyle = `rgba(255,255,255,${Math.random() * 0.12})`; ctx.fillRect(Math.random() * W, Math.random() * H, 1.5, 1.5); }
-    if (reveal) {
-      setIsScratched(true); let p = 0;
-      const anim = () => { if (p < 60) { ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(Math.random() * W, Math.random() * H, 28, 0, Math.PI * 2); ctx.fill(); p++; requestAnimationFrame(anim); } else { ctx.clearRect(0, 0, W, H); onReveal?.(); } };
-      anim(); return;
-    }
-    const scratch = (x: number, y: number) => {
-      if (!started) setStarted(true);
-      ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI * 2); ctx.fill();
-      const d = ctx.getImageData(0, 0, W, H).data; let t = 0;
-      for (let i = 3; i < d.length; i += 4) if (d[i] === 0) t++;
-      if ((t / (W * H)) * 100 > 60 && !isScratched) { setIsScratched(true); onReveal?.(); }
-    };
-    const onMove = (e: MouseEvent | TouchEvent) => {
-      e.preventDefault();
-      const rect = canvas.getBoundingClientRect(); const sx = W / rect.width; const sy = H / rect.height;
-      const cx = 'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
-      const cy = 'touches' in e ? e.touches[0].clientY : (e as MouseEvent).clientY;
-      scratch((cx - rect.left) * sx, (cy - rect.top) * sy);
-    };
-    canvas.addEventListener('mousemove', onMove); canvas.addEventListener('touchmove', onMove, { passive: false }); canvas.addEventListener('touchstart', onMove);
-    return () => { canvas.removeEventListener('mousemove', onMove); canvas.removeEventListener('touchmove', onMove); canvas.removeEventListener('touchstart', onMove); };
-  }, [reveal, isMobile, isScratched, onReveal, started]);
-
-  // --- FUNCIÓN DE COPIADO REFORZADA ---
   const handleCopy = () => {
-    if (!iban) return;
-
-    const executeCopy = async () => {
-      try {
-        // Intento 1: API Moderna
-        if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(iban);
-        } else {
-          throw new Error('Clipboard API no disponible');
-        }
-      } catch (err) {
-        // Intento 2: Plan B (Input invisible)
-        const textArea = document.createElement("textarea");
-        textArea.value = iban;
-        textArea.style.position = "fixed"; // Evitar scroll
-        textArea.style.left = "-9999px";
-        textArea.style.top = "0";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-          document.execCommand('copy');
-        } catch (copyErr) {
-          console.error('Incapaç de copiar', copyErr);
-        }
-        document.body.removeChild(textArea);
-      } finally {
-        setCopied(true);
-        onCopy();
-        setTimeout(() => setCopied(false), 2500);
-      }
-    };
-
-    executeCopy();
+    const plainIban = iban.replace(/\s/g, '');
+    const textArea = document.createElement("textarea");
+    textArea.value = plainIban;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      document.execCommand('copy');
+      setCopied(true);
+      onCopy();
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Error al copiar", err);
+    }
+    document.body.removeChild(textArea);
   };
 
   return (
-    <Box sx={{ position: 'relative', width: { xs: '280px', sm: '340px' }, mx: 'auto' }}>
-      <Button 
-        onClick={handleCopy} 
-        fullWidth 
-        sx={{ 
-          bgcolor: C.white, 
-          border: `1.5px solid ${C.mist}`, 
-          borderRadius: '16px', 
-          py: 2.5, 
-          flexDirection: 'column', 
-          gap: 0.5, 
-          transition: 'all 0.3s ease', 
-          boxShadow: '0 2px 12px rgba(61,53,48,0.06)', 
-          '&:hover': { bgcolor: C.cream, transform: 'translateY(-2px)', boxShadow: '0 8px 24px rgba(61,53,48,0.1)' } 
-        }}
-      >
-        <Typography sx={{ fontSize: 9, color: copied ? C.sage : C.slateLight, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-          {copied ? '✓ Copiat!' : 'Toca per copiar'}
-        </Typography>
-        <Typography 
-          component="code" 
-          sx={{ 
-            color: C.slate, 
-            fontWeight: 600, 
-            letterSpacing: { xs: 0.5, sm: 1.5 }, 
-            fontSize: { xs: '0.78rem', sm: '0.9rem' }, 
-            fontFamily: 'monospace', 
-            wordBreak: 'break-all' 
-          }}
-        >
-          {iban}
-        </Typography>
-      </Button>
-      {!reveal && !isScratched && (
-        <Box 
-          component="canvas" 
-          ref={canvasRef} 
-          sx={{ 
-            position: 'absolute', 
-            top: 0, 
-            left: 0, 
-            cursor: 'crosshair', 
-            touchAction: 'none', 
-            borderRadius: '16px', 
-            boxShadow: '0 4px 16px rgba(61,53,48,0.12)', 
-            width: '100%', 
-            height: '100%' 
-          }} 
-        />
-      )}
-      {!started && !reveal && !isScratched && (
-        <motion.div 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          transition={{ delay: 0.8 }} 
-          style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', zIndex: 10 }}
-        >
-          <Typography sx={{ color: 'rgba(255,255,255,0.85)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 600, textShadow: '0 1px 4px rgba(0,0,0,0.2)' }}>
-            ✦ Rasca aquí ✦
-          </Typography>
-        </motion.div>
-      )}
+    <Box sx={{ position: 'relative', width: { xs: '280px', sm: '340px' }, mx: 'auto', height: '90px' }}>
+      <AnimatePresence mode="wait">
+        {!isRevealed ? (
+          // --- CAPA INICIAL: EL REGALO ---
+          <motion.div
+            key="gift"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            style={{ height: '100%' }}
+          >
+            <Button
+              fullWidth
+              onClick={() => setIsRevealed(true)}
+              sx={{
+                height: '100%',
+                bgcolor: '#B8A898', // Color cobre/gris elegante
+                borderRadius: '16px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 0.5,
+                color: 'white',
+                border: '1px solid rgba(255,255,255,0.2)',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                '&:hover': { bgcolor: '#A89888' }
+              }}
+            >
+              <CardGiftcardIcon sx={{ fontSize: 28, mb: 0.5 }} />
+            </Button>
+          </motion.div>
+        ) : (
+          // --- CAPA FINAL: EL BOTÓN DE COPIAR ---
+          <motion.div
+            key="copy-button"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{ height: '100%' }}
+          >
+            <Button
+              fullWidth
+              onClick={handleCopy}
+              sx={{
+                height: '100%',
+                bgcolor: C.white,
+                border: `2px solid ${copied ? C.sage : C.mist}`,
+                borderRadius: '16px',
+                display: 'flex',
+                flexDirection: 'column',
+                transition: 'all 0.3s ease',
+                '&:hover': { bgcolor: C.cream }
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                {copied ? null : <ContentCopyIcon sx={{ fontSize: 14, color: C.slateLight }} />}
+                <Typography sx={{ fontSize: 10, color: copied ? C.sage : C.slateLight, fontWeight: 700, letterSpacing: '0.1em' }}>
+                  {copied ? '✓ COPIAT!' : 'TOCA PER COPIAR'}
+                </Typography>
+              </Box>
+              <Typography sx={{ color: C.slate, fontWeight: 600, fontSize: { xs: '0.85rem', sm: '0.95rem' }, fontFamily: 'monospace' }}>
+                {iban}
+              </Typography>
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Box>
   );
 };

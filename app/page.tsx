@@ -279,33 +279,33 @@ export default function Home() {
                 </Box>
                 <Box sx={{ textAlign: 'center' }}>
                   <Button 
-  href="https://maps.google.com" // Asegúrate de poner tu link real
-  target="_blank" 
-  startIcon={<LocationOnIcon />} 
-  variant="outlined"
-  sx={{ 
-    color: C.slate, 
-    borderColor: C.mist, 
-    borderWidth: '2px', // Borde con más peso
-    borderRadius: '100px', 
-    px: 4, 
-    py: 1.5, 
-    fontSize: 12, 
-    fontWeight: 700,
-    letterSpacing: '0.15em', 
-    textTransform: 'uppercase',
-    bgcolor: 'rgba(255,255,255,0.5)',
-    '&:hover': { 
-      borderWidth: '2px',
-      borderColor: C.rose, 
-      color: C.roseDark, 
-      bgcolor: C.white,
-      transform: 'translateY(-1px)',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
-    },
-    transition: 'all 0.2s ease'
-  }}
->
+                    href="https://www.google.com/maps/place/Diseminado+Poligono+13,+27,+07740,+Illes+Balears,+Spain/@39.972091,4.1947166,685m/data=!3m1!1e3!4m6!3m5!1s0x12be26616fb72133:0x1dcb996829ed6b43!8m2!3d39.9714743!4d4.1956715!16s%2Fg%2F11c1gt5dyk?entry=ttu&g_ep=EgoyMDI2MDQwOC4wIKXMDSoASAFQAw%3D%3D" // Asegúrate de poner tu link real
+                    target="_blank" 
+                    startIcon={<LocationOnIcon />} 
+                    variant="outlined"
+                    sx={{ 
+                      color: C.slate, 
+                      borderColor: C.mist, 
+                      borderWidth: '2px', 
+                      borderRadius: '100px', 
+                      px: 4, 
+                      py: 1.5, 
+                      fontSize: 12, 
+                      fontWeight: 700,
+                      letterSpacing: '0.15em', 
+                      textTransform: 'uppercase',
+                      bgcolor: 'rgba(255,255,255,0.5)',
+                      '&:hover': { 
+                        borderWidth: '2px',
+                        borderColor: C.rose, 
+                        color: C.roseDark, 
+                        bgcolor: C.white,
+                        transform: 'translateY(-1px)',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+                      },
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
   Obre a Google Maps
 </Button>
                 </Box>
@@ -351,7 +351,7 @@ export default function Home() {
                     <TextField select label="Plat principal" variant="standard" value={formData.meal || ''} onChange={e => handleChange('meal', e.target.value)}
                       InputLabelProps={{ sx: { fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, color: C.slateLight, fontFamily: 'inherit' } }}
                       sx={{ '& .MuiInput-underline:after': { borderBottomColor: C.rose }, '& .MuiInput-underline:before': { borderBottomColor: C.mist } }}
-                      SelectProps={{ displayEmpty: true, renderValue: (v) => { if (!v) return <span style={{ color: C.mist, fontStyle: 'italic' }}>Selecciona un plat…</span>; const map: Record<string, string> = { carn: '🥩 Arròs de carn', peix: '🦞 Arròs de llamàntol', negre: '🖤 Arròs negre', vege: '🥬 Arròs de verdura' }; return (map[v as string] || v) as React.ReactNode; } }}>
+                      SelectProps={{ displayEmpty: true, renderValue: (v) => { if (!v) return <span style={{ color: C.mist, fontStyle: 'italic' }}></span>; const map: Record<string, string> = { carn: '🥩 Arròs de carn', peix: '🦞 Arròs de llamàntol', negre: '🖤 Arròs negre', vege: '🥬 Arròs de verdura' }; return (map[v as string] || v) as React.ReactNode; } }}>
                       <MenuItem value="" disabled><em style={{ color: C.mist }}>Selecciona un plat…</em></MenuItem>
                       <MenuItem value="carn">🥩 Arròs de carn</MenuItem>
                       <MenuItem value="peix">🦞 Arròs de llamàntol</MenuItem>
