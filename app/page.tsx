@@ -166,7 +166,7 @@ export default function Home() {
 
       {/* ── 1. HERO ── */}
       <Box ref={heroRef} id="hero" sx={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-        <Box component="img" src="/silviaijoan.png" alt="Silvia i Joan" loading="eager" sx={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', zIndex: 0 }} />
+        <Box component="img" src="/silviaijoan.png" alt="" loading="eager" sx={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', zIndex: 0 }} />
         <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(247,243,238,0.15) 0%, rgba(61,53,48,0.35) 100%)', zIndex: 1 }} />
         <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 2, px: { xs: 2, sm: 4 } }}>
           <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}>
@@ -575,7 +575,7 @@ export default function Home() {
 ...és compartir aquest dia amb vosaltres. Si tot i així ens voleu ajudar, aquí teniu els detalls            </Typography>
             <Flourish color={C.sage} />
             <Box sx={{ mt: 4 }}>
-              <ScratchCard iban={ibanReal} reveal={autoReveal} onReveal={() => setAutoReveal(true)}
+              <ScratchCard iban={ibanReal}
                 onCopy={() => setSnackbar({ open: true, message: 'IBAN copiat al porta-retalls! 🌿', severity: 'success' })} />
             </Box>
           </motion.div>
