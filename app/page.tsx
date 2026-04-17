@@ -401,13 +401,23 @@ export default function Home() {
             </Box>
             <AnimatePresence mode="wait">
               {formDone ? (
-                <motion.div key="done" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
-                  <Box sx={{ textAlign: 'center', py: 6 }}>
-                    <CheckCircleOutline sx={{ fontSize: 64, color: C.sage, mb: 2 }} />
-                    <Typography sx={{ fontFamily: '"Cormorant Garamond", serif', fontStyle: 'italic', fontSize: '1.5rem', color: C.slate, mb: 1 }}>Gràcies, {formData.name}!</Typography>
-                    <Typography sx={{ color: C.slateLight, fontSize: '0.9rem' }}>Hem rebut la teva confirmació. Ens veiem el 3 d&apos;octubre 🌿</Typography>
-                  </Box>
-                </motion.div>
+  <motion.div key="done" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
+    <Box sx={{ textAlign: 'center', py: 6 }}>
+      {formData.attendance === 'si' 
+        ? <CheckCircleOutline sx={{ fontSize: 64, color: C.sage, mb: 2 }} />
+        : <Typography sx={{ fontSize: 64, mb: 2 }}>🥺</Typography>
+      }
+      <Typography sx={{ fontFamily: '"Cormorant Garamond", serif', fontStyle: 'italic', fontSize: '1.5rem', color: C.slate, mb: 1 }}>
+        Gràcies, {formData.name}!
+      </Typography>
+      <Typography sx={{ color: C.slateLight, fontSize: '0.9rem' }}>
+        {formData.attendance === 'si' 
+          ? "Hem rebut sa teva confirmació. Ens veiem el 3 d'octubre 🌿"
+          : "Hem rebut sa teva resposta. Estarem tristos de no veure't"
+        }
+      </Typography>
+    </Box>
+  </motion.div>
               ) : (
                 <motion.div key="form">
                   <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
