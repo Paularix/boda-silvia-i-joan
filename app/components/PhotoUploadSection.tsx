@@ -73,7 +73,7 @@ export const PhotoUploadSection = () => {
           <Box>
             <CloudUploadIcon sx={{ fontSize: 52, color: uploadedCount > 0 ? C.sage : C.mist, mb: 2, transition: 'color 0.3s' }} />
             <Typography sx={{ fontFamily: '"Cormorant Garamond", serif', fontStyle: 'italic', fontSize: { xs: '1.2rem', sm: '1.5rem' }, color: C.slate, mb: 1 }}>
-              {uploadedCount > 0 ? 'Puja més fotos' : 'Puja les teves fotos'}
+              {uploadedCount > 0 ? 'Puja més fotos' : 'Puja ses teves fotos'}
             </Typography>
             <Typography sx={{ fontSize: 12, color: C.slateLight, mb: 2 }}>Arrossega aquí o fes clic per seleccionar</Typography>
             <Typography sx={{ fontSize: 10, color: C.mist, letterSpacing: '0.1em' }}>JPG, PNG, HEIC · Múltiples fotos acceptades</Typography>

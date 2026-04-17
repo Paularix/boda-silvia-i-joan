@@ -21,7 +21,8 @@ import { ScratchCard } from './components/ScratchCard';
 import { PhotoUploadSection } from './components/PhotoUploadSection';
 import { Flourish } from './components/Flourish';
 import { MobileNav } from './components/MobileNav';
-import { CheckCircleOutline } from '@mui/icons-material';
+import { AccessibilityNew, CheckCircleOutline, HikingOutlined } from '@mui/icons-material';
+import { GiConverseShoe } from 'react-icons/gi';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -138,7 +139,9 @@ export default function Home() {
         return;
       }
       setFormDone(true);
-      setSnackbar({ open: true, message: `Gràcies ${formData.name}! T'esperem el 3 d'octubre 🌿`, severity: 'success' });
+      setSnackbar({ open: true, message: formData.attendance === 'si' 
+    ? `Gràcies ${formData.name}! T'esperem el 3 d'octubre 🌿` 
+    : `Estarem tristos de no veure't aquell dia 🥺 Una abraçada ${formData.name}!`, severity: 'success' });
     } catch {
       setSnackbar({ open: true, message: 'Hi ha hagut un error. Torna-ho a intentar.', severity: 'error' });
     } finally { setIsSubmitting(false); }
@@ -252,7 +255,7 @@ export default function Home() {
                 icon={<MusicNoteIcon />} 
                 subtitle="Festa" 
                 title="Fins que aguanti es cos!" 
-                description="Prepareu les sabates de ball." 
+                description="Prepareu ses sabates de ball." 
               />
             </Box>
 
@@ -270,45 +273,117 @@ export default function Home() {
                   mb: 3 
                 }}>
                   <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3698.6139367571327!2d4.194716633590684!3d39.97209096204583!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12be26616fb72133%3A0x1dcb996829ed6b43!2sDiseminado%20Poligono%2013%2C%2027%2C%2007740%2C%20Illes%20Balears%2C%20Spain!5e1!3m2!1sen!2sie!4v1776181333913!5m2!1sen!2sie"                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }} 
+                    src="https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d2981.948172663729!2d4.196051965185159!3d39.97288014442616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e1!4m3!3m2!1d39.9744685!2d4.1968153!4m5!1s0x12be26616fb72133%3A0x1dcb996829ed6b43!2sDiseminado%20Poligono%2013%2C%2027%2C%2007740%2C%20Illes%20Balears!3m2!1d39.9714743!2d4.1956714999999996!5e1!3m2!1sen!2ses!4v1776413726804!5m2!1sen!2ses"
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }} 
                     allowFullScreen 
                     loading="lazy" 
                     referrerPolicy="no-referrer-when-downgrade" 
                     title="Finca de Binimazoch" 
                   />
                 </Box>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Button 
-                    href="https://www.google.com/maps/place/Diseminado+Poligono+13,+27,+07740,+Illes+Balears,+Spain/@39.972091,4.1947166,685m/data=!3m1!1e3!4m6!3m5!1s0x12be26616fb72133:0x1dcb996829ed6b43!8m2!3d39.9714743!4d4.1956715!16s%2Fg%2F11c1gt5dyk?entry=ttu&g_ep=EgoyMDI2MDQwOC4wIKXMDSoASAFQAw%3D%3D" // Asegúrate de poner tu link real
-                    target="_blank" 
-                    startIcon={<LocationOnIcon />} 
-                    variant="outlined"
-                    sx={{ 
-                      color: C.slate, 
-                      borderColor: C.mist, 
-                      borderWidth: '2px', 
-                      borderRadius: '100px', 
-                      px: 4, 
-                      py: 1.5, 
-                      fontSize: 12, 
-                      fontWeight: 700,
-                      letterSpacing: '0.15em', 
-                      textTransform: 'uppercase',
-                      bgcolor: 'rgba(255,255,255,0.5)',
-                      '&:hover': { 
-                        borderWidth: '2px',
-                        borderColor: C.rose, 
-                        color: C.roseDark, 
-                        bgcolor: C.white,
-                        transform: 'translateY(-1px)',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
-                      },
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-  Obre a Google Maps
-</Button>
-                </Box>
+                {/* Avís de ruta */}
+                  <Box sx={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 1.5,
+                    bgcolor: 'rgba(194,115,90,0.08)',
+                    border: `1px solid rgba(194,115,90,0.25)`,
+                    borderRadius: '16px',
+                    px: 3,
+                    py: 2,
+                    mb: 3,
+                    textAlign: 'left'
+                  }}>
+                    <Typography sx={{ fontSize: '1.1rem', flexShrink: 0, mt: '1px' }}>⚠️</Typography>
+                    <Box>
+                      <Typography sx={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        letterSpacing: '0.15em',
+                        textTransform: 'uppercase',
+                        color: C.roseDark,
+                        mb: 0.5
+                      }}>
+                        Atenció amb la ruta
+                      </Typography>
+                      <Typography sx={{
+                        fontSize: '0.9rem',
+                        color: C.slateLight,
+                        fontFamily: '"Cormorant Garamond", serif',
+                        fontStyle: 'italic',
+                        lineHeight: 1.7
+                      }}>
+                        Veniu per sa carretera <strong style={{ fontStyle: 'normal', color: C.slate }}>Me-7</strong>. 
+                        Google Maps avegades us pot indicar per Camí d&apos;en Kane, que acaba en camins privats. 
+                        Seguiu la Me-7 fins trobar s&apos;indicació de sa finca.
+                      </Typography>
+                    </Box>
+                  </Box>
+<Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+  <Button 
+    href="https://maps.app.goo.gl/9DWtgRksZxhn5GL48?g_st=iw"
+    target="_blank" 
+    startIcon={<LocationOnIcon />} 
+    variant="outlined"
+    sx={{ 
+      width: 200,  // ← anchura fija igual para los dos
+      color: C.slate, 
+      borderColor: C.mist, 
+      borderWidth: '2px', 
+      borderRadius: '100px', 
+      px: 4, 
+      py: 1.5, 
+      fontSize: 8, 
+      fontWeight: 700,
+      letterSpacing: '0.15em', 
+      textTransform: 'uppercase',
+      bgcolor: 'rgba(255,255,255,0.5)',
+      '&:hover': { 
+        borderWidth: '2px',
+        borderColor: C.rose, 
+        color: C.roseDark, 
+        bgcolor: C.white,
+        transform: 'translateY(-1px)',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+      },
+      transition: 'all 0.2s ease'
+    }}
+  >
+    Desde Maó
+  </Button>
+
+  <Button 
+    href="TU_LINK_CIUTADELLA"
+    target="_blank" 
+    startIcon={<LocationOnIcon />} 
+    variant="outlined"
+    sx={{ 
+      width: 200,  // ← misma anchura
+      color: C.slate, 
+      borderColor: C.mist, 
+      borderWidth: '2px', 
+      borderRadius: '100px', 
+      px: 4, 
+      py: 1.5, 
+      fontSize: 8, 
+      fontWeight: 700,
+      letterSpacing: '0.15em', 
+      textTransform: 'uppercase',
+      bgcolor: 'rgba(255,255,255,0.5)',
+      '&:hover': { 
+        borderWidth: '2px',
+        borderColor: C.rose, 
+        color: C.roseDark, 
+        bgcolor: C.white,
+        transform: 'translateY(-1px)',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+      },
+      transition: 'all 0.2s ease'
+    }}
+  >
+    Desde Ciutadella
+  </Button>
+</Box>
               </Box>
             </motion.div>
           </motion.div>
@@ -322,7 +397,7 @@ export default function Home() {
             <Box sx={{ textAlign: 'center', mb: 6 }}>
               <SectionLabel>Confirmació</SectionLabel>
               <Typography variant="h2" sx={{ fontFamily: '"Cormorant Garamond", serif', fontWeight: 300, fontStyle: 'italic', fontSize: { xs: '2.2rem', sm: '3rem' }, color: C.slate, mb: 1.5 }}>Ens acompanyes a celebrar-ho?</Typography>
-              <Typography sx={{ color: C.slateLight, fontSize: '0.9rem' }}>Confirmar abans del 30 d&apos;agost</Typography>
+              <Typography sx={{ color: C.slateLight, fontSize: '0.9rem' }}>Confirmar abans del 30 de Juliol</Typography>
             </Box>
             <AnimatePresence mode="wait">
               {formDone ? (
@@ -469,7 +544,7 @@ export default function Home() {
                 <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
                   <Box sx={{ textAlign: 'center', mb: 3 }}>
                     <Typography sx={{ fontSize: 9, letterSpacing: '0.25em', textTransform: 'uppercase', color: C.slateLight }}>
-                      {allSongs.length} cançó{allSongs.length !== 1 ? 'ns' : ''} a la playlist · Segueix creixent!
+                      {allSongs.length} cançó{allSongs.length !== 1 ? 'ns' : ''} a sa playlist · Segueix creixent!
                     </Typography>
                   </Box>
                   {[0, 1].map(row => (
@@ -540,9 +615,17 @@ export default function Home() {
               <InfoCard 
                 icon={<PhotoCameraIcon />} 
                 subtitle="Fotos" 
-                title="Comparteix el moment" 
+                title="Comparteix es moment" 
                 description="Fes servir l'etiqueta #BodaSilvia&Joan a les teves xarxes o puja-les directament a la nostra galeria." 
               />
+
+
+            <InfoCard 
+              icon={<GiConverseShoe />} 
+              subtitle="Calçat" 
+              title="Còmode i pla" 
+              description="Sa finca té terreny irregular. Et recomanem agafar calçat còmode i pla, especialment si vens amb tacons." 
+            />
             </Box>
 
           </motion.div>
@@ -557,7 +640,7 @@ export default function Home() {
               <SectionLabel>Galeria</SectionLabel>
               <Typography variant="h2" sx={{ fontFamily: '"Cormorant Garamond", serif', fontWeight: 300, fontStyle: 'italic', fontSize: { xs: '2.2rem', sm: '3rem' }, color: C.slate, mb: 1.5 }}>Ses vostres instantàneas</Typography>
               <Typography sx={{ color: C.slateLight, fontSize: '0.95rem', maxWidth: 460, mx: 'auto', lineHeight: 1.8 }}>
-                Comparteix els moments que has viscut. Les fotos es compartirán més endavant a una carpeta compartida.
+                Comparteix es moments que has viscut. Ses fotos es compartirán més endavant a una carpeta compartida.
               </Typography>
             </Box>
             <PhotoUploadSection />
@@ -570,9 +653,9 @@ export default function Home() {
         <Container maxWidth="sm">
           <motion.div initial={{ opacity: 0, scale: 0.97 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
             <SectionLabel>Un detallet</SectionLabel>
-            <Typography variant="h2" sx={{ fontFamily: '"Cormorant Garamond", serif', fontWeight: 300, fontStyle: 'italic', fontSize: { xs: '2.2rem', sm: '3rem' }, color: C.slate, mb: 1.5 }}>Per a nosaltres, el millor regal</Typography>
+            <Typography variant="h2" sx={{ fontFamily: '"Cormorant Garamond", serif', fontWeight: 300, fontStyle: 'italic', fontSize: { xs: '2.2rem', sm: '3rem' }, color: C.slate, mb: 1.5 }}>Per noltros, es millor regal</Typography>
             <Typography sx={{ color: C.slateLight, fontStyle: 'italic', fontSize: '1rem', maxWidth: 380, mx: 'auto', mb: 5, lineHeight: 1.8 }}>
-...és compartir aquest dia amb vosaltres. Si tot i així ens voleu ajudar, aquí teniu els detalls            </Typography>
+...és compartir aquest dia amb tu. Si tot i així ens vols ajudar, aquí tens es detalls            </Typography>
             <Flourish color={C.sage} />
             <Box sx={{ mt: 4 }}>
               <ScratchCard iban={ibanReal}
