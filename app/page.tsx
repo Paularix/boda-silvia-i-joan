@@ -321,7 +321,7 @@ export default function Home() {
                   </Box>
 <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
   <Button 
-    href="https://maps.app.goo.gl/9DWtgRksZxhn5GL48?g_st=iw"
+    href="https://maps.app.goo.gl/b73MUjcDCWSWpEgZ6"
     target="_blank" 
     startIcon={<LocationOnIcon />} 
     variant="outlined"
@@ -353,7 +353,7 @@ export default function Home() {
   </Button>
 
   <Button 
-    href="TU_LINK_CIUTADELLA"
+    href="https://maps.app.goo.gl/4HrwyzsgtcEY29BQ8"
     target="_blank" 
     startIcon={<LocationOnIcon />} 
     variant="outlined"
